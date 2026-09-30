@@ -1,34 +1,34 @@
-# Custom-built fonts for PeppyMeter Screensaver and PeppyMeter Remote.
+# Glass fonts
 
-This repository was `peppy_fonts`; the old name still works, GitHub redirects links, clones and raw file URLs to it.
+The text faces [Glass](https://github.com/foonerd/glass) draws with: one family, PeppyFont, assembled from Google's Noto fonts so that a theme's title, artist and album rows read in every script that music metadata comes in. The family keeps its name, PeppyFont, because themes and player configurations refer to the files by it.
 
-Assembles Google Noto font components into three weight-matched files
-with broad Unicode coverage for music metadata display worldwide.
+This repository was `peppy_fonts`. The old name still works: GitHub redirects links, clones and raw file URLs to it.
 
-## Output
+## What is here
 
-- `fonts/PeppyFont-Light.ttf` - Light weight (artist, album, smaller text)
-- `fonts/PeppyFont-Regular.ttf` - Regular weight (title, general text)
-- `fonts/PeppyFont-Bold.ttf` - Bold weight (emphasis, headers)
-- `fonts/PeppyFont-Italic.ttf` - Italic (emphasis / styled text)
+- `fonts/PeppyFont-Light.ttf`, the light weight, for artist, album and smaller rows
+- `fonts/PeppyFont-Regular.ttf`, the regular weight, for titles and general text
+- `fonts/PeppyFont-Bold.ttf`, the bold weight, for emphasis
+- `fonts/PeppyFont-Italic.ttf`, the italic
 
-The Italic face uses the genuine `NotoSans-Italic` for Latin, Cyrillic and
-Greek. CJK and the per-script faces (Arabic, Hebrew, Devanagari, Bengali,
-Tamil, Thai, Georgian, Armenian) ship no italic in Noto, so they fall back to
-their upright (Regular) forms - those scripts do not use italics. The result is
-full script coverage with real italics where they exist.
+The italic uses the genuine Noto Sans Italic for Latin, Cyrillic and Greek. CJK and the per-script faces (Arabic, Hebrew, Devanagari, Bengali, Tamil, Thai, Georgian, Armenian) have no italic in Noto, and those scripts do not use one, so they fall back to their upright forms: full coverage, with real italics where they exist.
 
-DSEG7Classic-Italic.ttf (segment display) is not built here. It ships
-separately with peppy_screensaver and peppy_remote.
+The seven-segment clock face, DSEG7, is not built here; Glass ships it in its own tree.
 
-## Script Coverage
+## How Glass uses them
 
-Target coverage for music metadata in all major languages:
+When the Glass plugin is packaged, Light, Regular and Bold are fetched from this repository at a pinned commit and checked against their digests; Italic travels in the Glass repository itself. Together with DSEG7 they are Glass's built-in faces: a theme's `font.light`, `font.regular`, `font.bold` and `font.italic` styles are set in them unless the player says otherwise, and a character the chosen face lacks is taken from PeppyFont-Regular, so a theme set in a Latin-only face still shows a Japanese title.
 
-- Latin (English, French, German, Spanish, Portuguese, etc.)
-- Cyrillic (Russian, Ukrainian, etc.)
+On the player, the Appearance tab of the Glass Manager sets each style to the built-in face, to a font uploaded there, or to one of the player's own. Remotes bring the fonts from the player, so they draw the same.
+
+## Script coverage
+
+Music metadata in every major language:
+
+- Latin (English, French, German, Spanish, Portuguese and the rest)
+- Cyrillic (Russian, Ukrainian and the rest)
 - Greek
-- CJK - Chinese, Japanese, Korean (IICore common subset)
+- CJK: Chinese, Japanese, Korean (the IICore common subset)
 - Arabic
 - Hebrew
 - Devanagari (Hindi, Marathi, Nepali)
@@ -40,34 +40,26 @@ Target coverage for music metadata in all major languages:
 
 ## Build
 
-Fonts are built via GitHub Actions using Google's fonttools (pyftmerge).
+The fonts are built by the repository's GitHub Action with Google's fonttools (`pyftmerge`), which commits the four files under `fonts/` when they change. The Noto sources are downloaded from the Noto project at build time; no source font is kept here.
 
-Source fonts are downloaded from the official Noto Fonts project at build
-time. No source font files are stored in this repository.
+By hand:
 
-### Manual build
-
-```
-pip install fonttools
+```text
+pip install fonttools cu2qu brotli
 python scripts/build.py
 ```
 
-Output goes to `fonts/`.
+The output lands in `fonts/`. `scripts/config.json` says which Noto faces go into each weight.
 
 ## Source
 
-All source fonts are from the Google Noto project:
-https://github.com/notofonts
+Every source face is from the Google Noto project: <https://github.com/notofonts>
 
-## License
+## Licence
 
-Output fonts are licensed under the SIL Open Font License, Version 1.1,
-as required by the upstream Noto fonts.
+The output fonts are under the SIL Open Font License, Version 1.1, as the Noto sources require; see `LICENSE`. The build scripts are under GPL v3.
 
-Build scripts are licensed under GPL v3 (consistent with PeppyMeter).
+## Where they are used
 
-## Integration
-
-Built fonts are consumed by:
-- [peppy_screensaver](https://github.com/foonerd/peppy_screensaver) - server plugin
-- [peppy_remote](https://github.com/foonerd/peppy_remote) - Windows remote client
+- [Glass](https://github.com/foonerd/glass): the plugin package, the display and its remotes.
+- PeppyMeter Screensaver and PeppyMeter Remote used them before Glass and keep fetching them under the old name.
