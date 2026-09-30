@@ -1,5 +1,7 @@
 # Custom-built fonts for PeppyMeter Screensaver and PeppyMeter Remote.
 
+This repository was `peppy_fonts`; the old name still works, GitHub redirects links, clones and raw file URLs to it.
+
 Assembles Google Noto font components into three weight-matched files
 with broad Unicode coverage for music metadata display worldwide.
 
